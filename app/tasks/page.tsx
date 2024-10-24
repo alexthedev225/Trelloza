@@ -1,14 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-
 import Cookies from "js-cookie";
-
 import TaskForm from "./TaskForm"; // Importation du sous-composant
 import TaskList from "./TaskList"; // Importation du sous-composant
 import TaskTip from "./TaskTip"; // Importation du sous-composant
 
 interface Task {
-  _id: number;
+  _id: string; // Changer le type de _id en string
   content: string;
   completed: boolean;
   priority: "low" | "medium" | "high";
@@ -23,6 +21,7 @@ const TasksPage: React.FC = () => {
     return Cookies.get("token");
   };
 
+  // Utilisez useEffect pour récupérer les tâches à chaque ajout
   useEffect(() => {
     const fetchTasks = async () => {
       const token = getToken();
@@ -36,7 +35,7 @@ const TasksPage: React.FC = () => {
           if (response.ok) {
             const data = await response.json();
             setTasks(data || []);
-            console.log(tasks)
+            console.log("Tasks fetched:", data); // Utilisation de console.log pour vérifier les tâches
           } else {
             console.error("Failed to fetch tasks");
           }
@@ -47,7 +46,7 @@ const TasksPage: React.FC = () => {
     };
 
     fetchTasks();
-  }, []);
+  }, [tasks]); // Déclenche l'effet à chaque changement dans tasks
 
   return (
     <div className="container mx-auto p-6 sm:p-10 min-h-screen">

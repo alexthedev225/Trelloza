@@ -48,7 +48,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ tasks, setTasks }) => {
 
           if (response.ok) {
             const data = await response.json();
-            setTasks([data.task, ...tasks]);
+            // Ajoutez la nouvelle tâche à l'état immédiatement
+            setTasks(prevTasks => [data.task, ...prevTasks]);
             setTaskContent("");
             setDueDate("");
             setPriority("low");
@@ -108,5 +109,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ tasks, setTasks }) => {
     </div>
   );
 };
+
 
 export default TaskForm;

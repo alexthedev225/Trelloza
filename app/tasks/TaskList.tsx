@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import {
   TrashIcon,
@@ -11,7 +12,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
 interface Task {
-  _id: string; // Utilisez string pour l'identifiant, car Mongoose génère des identifiants de type ObjectId.
+  _id: string;
   content: string;
   completed: boolean;
   priority: "low" | "medium" | "high";
@@ -29,12 +30,12 @@ const TaskList: React.FC<TaskListProps> = ({
   filterPriority,
   setTasks,
 }) => {
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null); // Pour savoir quelle tâche est en cours d'édition
-  const [editedContent, setEditedContent] = useState<string>(""); // Pour stocker le nouveau contenu
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editedContent, setEditedContent] = useState<string>("");
 
   const startEditingTask = (task: Task) => {
-    setEditingTaskId(task._id); // Définit la tâche en cours d'édition
-    setEditedContent(task.content); // Prend le contenu actuel comme valeur initiale
+    setEditingTaskId(task._id);
+    setEditedContent(task.content);
   };
 
   const translatePriority = (priority: "low" | "medium" | "high") => {
@@ -56,12 +57,14 @@ const TaskList: React.FC<TaskListProps> = ({
   };
 
   const filteredTasks = tasks.filter((task) => {
-    if (filterPriority === "all") return true;
-    return task.priority === filterPriority;
+    return (
+      task &&
+      (filterPriority === "all" || task.priority === filterPriority)
+    );
   });
 
   const getToken = () => {
-    return Cookies.get("token"); // Récupération du token
+    return Cookies.get("token");
   };
 
   const handleDeleteTask = async (id: string) => {
@@ -140,7 +143,7 @@ const TaskList: React.FC<TaskListProps> = ({
           setTasks((prevTasks) =>
             prevTasks.map((t) => (t._id === updatedTask._id ? updatedTask : t))
           );
-          setEditingTaskId(null); // Fin du mode édition
+          setEditingTaskId(null);
         } else {
           console.error("Failed to save task:", await response.text());
         }
@@ -175,9 +178,7 @@ const TaskList: React.FC<TaskListProps> = ({
                     >
                       {task.completed ? (
                         <CheckCircleIcon className="w-5 h-5 text-white" />
-                      ) : (
-                        ""
-                      )}
+                      ) : null}
                     </button>
                     <div className="text-left">
                       {editingTaskId === task._id ? (
@@ -212,7 +213,7 @@ const TaskList: React.FC<TaskListProps> = ({
                         </div>
                       )}
                       <span
-                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                        className={`inline-block px-2 py-1 text-xs font-semibold ${
                           task.priority === "high"
                             ? "bg-red-200 text-red-800"
                             : task.priority === "medium"
@@ -220,7 +221,7 @@ const TaskList: React.FC<TaskListProps> = ({
                             : "bg-green-200 text-green-800"
                         }`}
                       >
-                        Priorité {translatePriority(task.priority)} 
+                        Priorité {translatePriority(task.priority)}
                       </span>
                     </div>
                   </div>
