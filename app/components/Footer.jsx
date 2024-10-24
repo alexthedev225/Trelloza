@@ -4,35 +4,39 @@ import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 export default function Footer() {
   return (
-    <footer className="border-t-2 text-white p-8 px-20">
-      <div className="container mx-auto text-center space-y-6">
-        <p className="text-lg font-semibold">© 2024 Trelloza. All rights reserved.</p>
+    <footer className="border-t-2 text-white p-8 lg:mx-20 mx-8 ">
+      <div className="container mx-auto text-center space-y-8">
+        {/* Copyright */}
+        <p className="text-lg font-semibold tracking-wide">© 2024 Trelloza. Tous droits réservés.</p>
         
-        <div className="flex justify-center space-x-6">
+        {/* Liens de navigation */}
+        <div className="flex justify-center space-x-8 text-sm font-medium">
           <Link href="/privacy">
-            <span className="hover:underline cursor-pointer text-sm">Privacy Policy</span>
+            <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Politique de confidentialité</span>
           </Link>
           <Link href="/terms">
-            <span className="hover:underline cursor-pointer text-sm">Terms of Service</span>
+            <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Conditions d'utilisation</span>
           </Link>
           <Link href="/contact">
-            <span className="hover:underline cursor-pointer text-sm">Contact Us</span>
+            <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Nous contacter</span>
           </Link>
         </div>
 
-        <div className="flex justify-center space-x-6 text-2xl">
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition duration-300">
+        {/* Icônes des réseaux sociaux */}
+        <div className="flex justify-center space-x-8 text-2xl">
+          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-all duration-300">
             <FaFacebook />
           </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition duration-300">
+          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-all duration-300">
             <FaTwitter />
           </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition duration-300">
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-all duration-300">
             <FaInstagram />
           </a>
         </div>
         
-        <p className="text-xs text-gray-200">Built with ❤️ by Trelloza Team</p>
+        {/* Message d'équipe */}
+        <p className="text-sm text-white">Créé avec ❤️ par l'équipe Trelloza</p>
       </div>
     </footer>
   );

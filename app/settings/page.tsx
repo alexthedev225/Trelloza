@@ -113,7 +113,7 @@ const SettingsPage: React.FC = () => {
 
         <button
           onClick={handleSaveSettings}
-          className="mt-6 w-full py-3 bg-pink-700 text-white rounded-full transition-all duration-300 hover:bg-pink-800 flex justify-center items-center space-x-2"
+          className="mt-6 w-full py-3 bg-pink-500 text-white rounded-full transition-all duration-300 hover:bg-pink-600 flex justify-center items-center space-x-2"
         >
           <CheckCircleIcon className="w-5 h-5" />
           <span>Sauvegarder les Paramètres</span>

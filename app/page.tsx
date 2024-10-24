@@ -1,6 +1,5 @@
 "use client";
 
-import backgroundImage from "@/app/public/images/bg.jpg";
 import HomeHeader from "@/app/components/HomeHeader"
 import HomeMain from "@/app/components/HomeMain"
 
