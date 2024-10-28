@@ -1,18 +1,18 @@
 "use client";
-
 import React, { useState, useEffect } from 'react';
-import { EnvelopeIcon, LockClosedIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faSpinner } from '@fortawesome/free-solid-svg-icons'; // Icônes solides pour Home et Spinner
 import { gsap } from 'gsap';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Link from 'next/link';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -42,6 +42,7 @@ const LoginPage: React.FC = () => {
 
       const data = await response.json();
 
+      // Stocker le token dans les cookies
       Cookies.set('token', data.token, {
         expires: 24,
         path: '/',
@@ -50,9 +51,14 @@ const LoginPage: React.FC = () => {
         httpOnly: false,
       });
 
-      router.push('/dashboard');
-    } catch (error) {
+      // Afficher le toast de succès
+      toast.success('Connexion réussie !'); 
+      
+      // Redirection vers le tableau de bord
+      window.location.href = '/';
+    } catch (error: any) {
       setError(error.message);
+      toast.error(error.message); // Afficher le toast d'erreur
     } finally {
       setLoading(false);
     }
@@ -67,7 +73,8 @@ const LoginPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-10 ">
+    <div className="container mx-auto p-10">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <div className="flex flex-col justify-center items-center mb-12">
         <h1 className="text-5xl font-bold text-white text-center playfair-display">Connexion</h1>
         <p className="mt-6 text-lg text-white text-center">
@@ -77,7 +84,6 @@ const LoginPage: React.FC = () => {
 
       <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
         <div className="mb-6 flex items-center space-x-2 login-field">
-          <EnvelopeIcon className="w-6 h-6 text-gray-700" />
           <label className="block text-gray-700 font-bold">Email</label>
         </div>
         <input
@@ -89,7 +95,6 @@ const LoginPage: React.FC = () => {
         />
 
         <div className="mb-6 flex items-center space-x-2 mt-4 login-field">
-          <LockClosedIcon className="w-6 h-6 text-gray-700" />
           <label className="block text-gray-700 font-bold">Mot de passe</label>
         </div>
         <input
@@ -106,7 +111,7 @@ const LoginPage: React.FC = () => {
           disabled={loading}
         >
           {loading ? (
-            <div className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-t-transparent"></div>
+            <FontAwesomeIcon icon={faSpinner} spin className="text-white" />
           ) : (
             <span>Se connecter</span>
           )}
@@ -123,7 +128,7 @@ const LoginPage: React.FC = () => {
       <div className="mt-4 text-center">
         <Link href="/">
           <div className="inline-flex justify-center items-center bg-black text-white md:px-20 px-4 py-2 rounded-lg shadow-md transition-all duration-300 hover:bg-gray-800 hover:scale-105">
-            <HomeIcon className="h-5 w-5 mr-2" />
+            <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-2" />
             <span>Retour à l'accueil</span>
           </div>
         </Link>

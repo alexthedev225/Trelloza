@@ -51,7 +51,7 @@ const TasksPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 sm:p-10 min-h-screen">
       <div className="flex flex-col justify-center items-center mb-12 w-full">
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white text-center">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white text-center playfair">
           Gestionnaire de Tâches
         </h1>
         <p className="mt-6 text-lg text-white text-center">

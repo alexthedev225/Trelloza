@@ -1,11 +1,19 @@
-import mongoose from "mongoose";
+  import mongoose, { Schema, Document } from "mongoose";
 
-const eventSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-});
+  interface IEvent extends Document {
+    userId: string;
+    day: string;
+    title: string;
+    color: string;
+  }
 
-const Event = mongoose.models.Event || mongoose.model("Event", eventSchema);
-export default Event;
+  const EventSchema = new Schema<IEvent>({
+    userId: { type: String, required: true },
+    day: { type: String, required: true },
+    title: { type: String, required: true },
+    color: { type: String, required: true },
+  });
+
+  const Event = mongoose.models.Event || mongoose.model<IEvent>("Event", EventSchema);
+
+  export default Event;
