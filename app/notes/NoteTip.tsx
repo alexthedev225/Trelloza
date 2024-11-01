@@ -6,7 +6,7 @@ const NoteTip: React.FC = () => {
     <div className="mb-6 p-4 bg-blue-100 border border-blue-300 rounded-lg flex items-center">
       <InformationCircleIcon className="w-6 h-6 text-blue-500 mr-2" />
       <span className="text-blue-700">
-        Pour mieux organiser vos notes, utilisez des catégories et des tags !
+        Pour mieux organiser vos notes, utilisez des catégories et des tags ! 📚
       </span>
     </div>
   );
