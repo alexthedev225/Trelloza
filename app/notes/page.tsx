@@ -236,16 +236,6 @@ const NotesPage: React.FC = () => {
           setNoteContent={setNoteContent}
           category={category}
           setCategory={setCategory}
-          tags={tags}
-          setTags={setTags}
-          newTag={newTag}
-          setNewTag={setNewTag}
-          handleAddTag={() => {
-            if (newTag.trim() !== "" && !tags.includes(newTag.trim())) {
-              setTags([...tags, newTag.trim()]);
-              setNewTag("");
-            }
-          }}
           handleEditNote={handleEditNote}
           setNoteToEdit={setNoteToEdit}
         />

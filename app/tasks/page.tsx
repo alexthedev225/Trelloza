@@ -55,7 +55,7 @@ const TasksPage: React.FC = () => {
           Gestionnaire de Tâches
         </h1>
         <p className="mt-6 text-lg text-white text-center">
-          Gérez vos tâches facilement et efficacement grâce à notre interface intuitive, où vous pouvez ajouter, modifier et suivre vos tâches en un clin d'œil.
+          Gérez vos tâches facilement et efficacement grâce à notre interface intuitive, où vous pouvez ajouter, modifier et suivre vos tâches en un clin d&apos;œil.
         </p>
       </div>
 
@@ -74,7 +74,7 @@ const TasksPage: React.FC = () => {
         </select>
       </div>
 
-      <TaskForm tasks={tasks} setTasks={setTasks} />
+      <TaskForm  tasks={tasks} setTasks={setTasks} />
 
       <TaskList tasks={tasks} filterPriority={filterPriority} setTasks={setTasks} />
     </div>

@@ -6,7 +6,6 @@ import {
   LockClosedIcon,
   CheckCircleIcon,
   SunIcon,
-  MoonIcon,
   InformationCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";

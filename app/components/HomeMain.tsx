@@ -59,14 +59,14 @@ export default function HomeMain() {
               <div className="flex flex-col items-center p-10 bg-white bg-opacity-10 text-white rounded-lg shadow-lg transform transition-all duration-300">
                 <FontAwesomeIcon icon={faCalendarAlt} className="text-5xl mb-4" />
                 <span className="text-2xl font-semibold">Événements</span>
-                <p className="text-sm mt-2 text-white">Gardez une vue d'ensemble sur vos événements</p>
+                <p className="text-sm mt-2 text-white">Gardez une vue d&apos;ensemble sur vos événements</p>
               </div>
             </Link>
           ) : (
             <div className="flex flex-col items-center p-10 bg-white bg-opacity-10 text-white rounded-lg shadow-lg transform transition-all duration-300 opacity-50">
               <FontAwesomeIcon icon={faCalendarAlt} className="text-5xl mb-4" />
               <span className="text-2xl font-semibold">Événements</span>
-              <p className="text-sm mt-2 text-white">Gardez une vue d'ensemble sur vos événements</p>
+              <p className="text-sm mt-2 text-white">Gardez une vue d&apos;ensemble sur vos événements</p>
             </div>
           )}
 

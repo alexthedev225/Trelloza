@@ -117,7 +117,7 @@ const WeeklyEventPlanner: React.FC = () => {
       <ToastContainer />
       <div className="flex flex-col justify-center items-center mb-12 w-full">
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white text-center playfair">
-        Planificateur d'Événements Hebdomadaire
+        Planificateur d&apos;Événements Hebdomadaire
         </h1>
         <p className="mt-6 text-lg text-white text-center">
         Utilisez le planificateur ci-dessous pour organiser vos événements de la semaine.

@@ -15,7 +15,7 @@ export default function Footer() {
             <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Politique de confidentialité</span>
           </Link>
           <Link href="/terms">
-            <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Conditions d'utilisation</span>
+            <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Conditions d&apos;utilisation</span>
           </Link>
           <Link href="/contact">
             <span className="hover:underline cursor-pointer transition-colors duration-300 hover:text-white">Nous contacter</span>
@@ -36,7 +36,7 @@ export default function Footer() {
         </div>
         
         {/* Message d'équipe */}
-        <p className="text-sm text-white">Créé avec ❤️ par l'équipe Trelloza</p>
+        <p className="text-sm text-white">Créé avec ❤️ par l&apos;équipe Trelloza</p>
       </div>
     </footer>
   );

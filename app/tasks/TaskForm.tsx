@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import Cookies from "js-cookie";
 
 interface Task {
-  id: number;
+  _id: string;
   content: string;
   completed: boolean;
   priority: "low" | "medium" | "high";
@@ -16,7 +16,7 @@ interface TaskFormProps {
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ tasks, setTasks }) => {
+const TaskForm: React.FC<TaskFormProps> = ({  setTasks }) => {
   const [taskContent, setTaskContent] = useState("");
   const [priority, setPriority] = useState<"low" | "medium" | "high">("low");
   const [dueDate, setDueDate] = useState("");

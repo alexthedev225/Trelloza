@@ -1,49 +1,54 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { UserIcon, EnvelopeIcon, LockClosedIcon, HomeIcon } from '@heroicons/react/24/outline'; // Importation des icônes
-import { gsap } from 'gsap';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import {
+  UserIcon,
+  EnvelopeIcon,
+  LockClosedIcon,
+  HomeIcon,
+} from "@heroicons/react/24/outline"; // Importation des icônes
+import { gsap } from "gsap";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const RegisterPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === 'username') setUsername(value);
-    if (name === 'email') setEmail(value);
-    if (name === 'password') setPassword(value);
+    if (name === "username") setUsername(value);
+    if (name === "email") setEmail(value);
+    if (name === "password") setPassword(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, email, password }),
       });
 
       if (!response.ok) {
-        throw new Error('Échec de l\'inscription');
+        throw new Error("Échec de l'inscription");
       }
 
       const data = await response.json();
       setSuccess(data.message);
-      router.push('/confirm');
+      router.push("/confirm");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -62,7 +67,9 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="container mx-auto p-10">
       <div className="flex flex-col justify-center items-center mb-12">
-        <h1 className="text-5xl font-bold text-white text-center playfair-display">Inscription</h1>
+        <h1 className="text-5xl font-bold text-white text-center playfair-display">
+          Inscription
+        </h1>
         <p className="mt-6 text-lg text-white text-center">
           Créez votre compte pour commencer à utiliser Trelloza.
         </p>
@@ -71,7 +78,9 @@ const RegisterPage: React.FC = () => {
       <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
         <div className="mb-6 flex items-center space-x-2 register-field">
           <UserIcon className="w-6 h-6 text-gray-700" />
-          <label className="block text-gray-700 font-bold">Nom d'utilisateur</label>
+          <label className="block text-gray-700 font-bold">
+            Nom d'utilisateur
+          </label>
         </div>
         <input
           type="text"
@@ -126,22 +135,23 @@ const RegisterPage: React.FC = () => {
 
       <div className="mt-4 text-center register-field">
         <Link href="/auth/login">
-          <div className="text-white hover:underline">Vous avez déjà un compte ? Connectez-vous</div>
+          <div className="text-white hover:underline">
+            Vous avez déjà un compte ? Connectez-vous
+          </div>
         </Link>
       </div>
       <div className="mt-4 text-center">
-  <Link href="/">
-    <div className="inline-flex justify-center items-center bg-black text-white md:px-20 px-4 py-2 rounded-lg shadow-md transition-all duration-300 hover:bg-gray-800 hover:scale-105">
-      <HomeIcon className="h-5 w-5 mr-2" />
-      <span>Retour à l'accueil</span>
-    </div>
-  </Link>
-</div>
-
+        <Link href="/">
+          <div className="inline-flex justify-center items-center bg-black text-white md:px-20 px-4 py-2 rounded-lg shadow-md transition-all duration-300 hover:bg-gray-800 hover:scale-105">
+            <HomeIcon className="h-5 w-5 mr-2" />
+            <span>Retour à l&apos;accueil</span>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
 
-RegisterPage.displayName = 'RegisterPage';
+RegisterPage.displayName = "RegisterPage";
 
 export default RegisterPage;

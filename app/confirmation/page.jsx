@@ -23,7 +23,7 @@ export default function ConfirmationPage() {
         </div>
         <h1 className="text-4xl font-bold mb-4 text-black playfair-display">Compte confirmé avec succès !</h1>
         <p className="mb-6 text-gray-800 text-lg">
-          Merci d'avoir confirmé votre compte. Vous pouvez maintenant vous connecter.
+          Merci d&apos;avoir confirmé votre compte. Vous pouvez maintenant vous connecter.
         </p>
         <Link href="/auth/login">
           <div className="inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
@@ -31,7 +31,7 @@ export default function ConfirmationPage() {
           </div>
         </Link>
         <p className="mt-4 text-gray-500 text-sm">
-          Si vous n'avez pas reçu l'email, <Link href="/resend"><span className="text-pink-600 hover:underline">cliquez ici pour renvoyer l'email de confirmation.</span></Link>
+          Si vous n&apos;avez pas reçu l&apos;email, <Link href="/resend"><span className="text-pink-600 hover:underline">cliquez ici pour renvoyer l&apos;email de confirmation.</span></Link>
         </p>
       </div>
     </div>
