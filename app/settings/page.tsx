@@ -5,8 +5,6 @@ import {
   UserIcon,
   LockClosedIcon,
   CheckCircleIcon,
-  SunIcon,
-  InformationCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { gsap } from "gsap";
@@ -124,35 +122,6 @@ const SettingsPage: React.FC = () => {
           placeholder="Nouveau mot de passe"
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 transition duration-300"
         />
-
-        <div className="my-6 flex items-center space-x-2 settings-field">
-          <SunIcon className="w-6 h-6 text-gray-700" />
-          <label className="block text-gray-700 font-bold">Thème</label>
-        </div>
-        <select
-          name="theme"
-          value={settings.theme}
-          onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 transition duration-300 mb-4"
-        >
-          <option value="light">Clair</option>
-          <option value="dark">Sombre</option>
-        </select>
-
-        <div className="mb-6 flex items-center space-x-2 settings-field">
-          <InformationCircleIcon className="w-6 h-6 text-gray-700" />
-          <label className="block text-gray-700 font-bold">Langue</label>
-        </div>
-        <select
-          name="language"
-          value={settings.language}
-          onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 transition duration-300 "
-        >
-          <option value="fr">Français</option>
-          <option value="en">Anglais</option>
-          {/* Ajoutez d'autres langues si nécessaire */}
-        </select>
 
         <div className="my-6 flex items-center settings-field">
           <input
