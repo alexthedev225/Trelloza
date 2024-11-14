@@ -49,11 +49,16 @@ const RegisterPage: React.FC = () => {
       const data = await response.json();
       setSuccess(data.message);
       router.push("/confirm");
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message); // Vous pouvez accéder en toute sécurité à error.message
+      } else {
+        setError("Une erreur inconnue s'est produite"); // Si l'erreur n'est pas une instance de Error
+      }
     } finally {
       setLoading(false);
     }
+    
   };
 
   useEffect(() => {
@@ -79,7 +84,7 @@ const RegisterPage: React.FC = () => {
         <div className="mb-6 flex items-center space-x-2 register-field">
           <UserIcon className="w-6 h-6 text-gray-700" />
           <label className="block text-gray-700 font-bold">
-            Nom d'utilisateur
+            Nom d&apos;utilisateur
           </label>
         </div>
         <input
@@ -125,7 +130,7 @@ const RegisterPage: React.FC = () => {
           {loading ? (
             <div className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-t-transparent"></div>
           ) : (
-            <span>S'inscrire</span>
+            <span>S&apos;inscrire</span>
           )}
         </button>
       </div>

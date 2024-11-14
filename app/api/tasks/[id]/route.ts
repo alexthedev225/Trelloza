@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import Task from "@/app/models/Task"; // Modèle Task Mongoose
 import { connectToDatabase } from "@/app/utils/db"; // Fonction pour la connexion à la base de données
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 // Fonction pour vérifier et décoder le token JWT
-const verifyToken = (token: string) => {
+const verifyToken = (token: string): JwtPayload | null => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!);
-  } catch (error) {
+    return jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+  } catch {
     return null;
   }
 };
@@ -50,7 +50,7 @@ export async function GET(
     }
 
     return NextResponse.json(task, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de la récupération de la tâche" },
       { status: 500 }
@@ -81,6 +81,19 @@ export async function PUT(
   const { id } = params;
   const { content, priority, dueDate, completed } = await req.json();
 
+  // Validation de la priorité
+  const validPriorities: ("low" | "medium" | "high")[] = ["low", "medium", "high"];
+  let validatedPriority: "low" | "medium" | "high" | undefined;
+  if (priority && validPriorities.includes(priority)) {
+    validatedPriority = priority;
+  }
+
+  // Conversion de dueDate si nécessaire
+  let validatedDueDate: Date | null = null;
+  if (dueDate) {
+    validatedDueDate = typeof dueDate === "string" ? new Date(dueDate) : dueDate;
+  }
+
   try {
     const task = await Task.findById(id);
 
@@ -98,13 +111,13 @@ export async function PUT(
 
     // Mettre à jour les champs
     task.content = content || task.content;
-    task.priority = priority || task.priority;
-    task.dueDate = dueDate || task.dueDate;
+    task.priority = validatedPriority || task.priority;
+    task.dueDate = validatedDueDate || task.dueDate;
     task.completed = completed !== undefined ? completed : task.completed;
 
     await task.save();
     return NextResponse.json(task, { status: 200 });
-  } catch (error) {
+  } catch  {
     return NextResponse.json(
       { error: "Erreur lors de la mise à jour de la tâche" },
       { status: 500 }
@@ -154,7 +167,7 @@ export async function DELETE(
       { message: "Tâche supprimée avec succès" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de la suppression de la tâche" },
       { status: 500 }

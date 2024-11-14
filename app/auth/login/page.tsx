@@ -56,9 +56,15 @@ const LoginPage: React.FC = () => {
 
       // Redirection vers le tableau de bord
       window.location.href = "/";
-    } catch (error: any) {
-      setError(error.message);
-      toast.error(error.message); // Afficher le toast d'erreur
+    }  catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+        toast.error(error.message); // Afficher le toast d'erreur
+      } else {
+        // Gérer un cas d'erreur inattendu (par exemple, une erreur non-Error)
+        setError("Une erreur inconnue s'est produite");
+        toast.error("Une erreur inconnue s'est produite");
+      }
     } finally {
       setLoading(false);
     }

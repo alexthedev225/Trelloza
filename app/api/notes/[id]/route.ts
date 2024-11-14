@@ -1,19 +1,25 @@
 import { NextResponse } from "next/server";
 import Note from "@/app/models/Note";
 import { connectToDatabase } from "@/app/utils/db";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+// Définir le type pour le token décodé
+interface DecodedToken extends JwtPayload {
+  userId: string;
+}
 
 // Fonction pour vérifier et décoder le token JWT
-const verifyToken = (token: string) => {
+const verifyToken = (token: string): DecodedToken | null => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!);
+    return jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
   } catch (error) {
+    console.error("Erreur de décodage du token:", error);
     return null;
   }
 };
 
 // PUT: Mettre à jour une note spécifique
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: { id: string } }): Promise<NextResponse> {
   await connectToDatabase();
 
   const authHeader = req.headers.get("Authorization");
@@ -26,10 +32,10 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   const decoded = verifyToken(token);
 
   if (!decoded) {
-    return NextResponse.json({ error: "Token invalide" }, { status: 401 });
+    return NextResponse.json({ error: "Token invalide", details: "Le token JWT est invalide ou a expiré." }, { status: 401 });
   }
 
-  const { content, title } = await req.json();
+  const { content, title }: { content: string; title: string } = await req.json();
 
   try {
     const note = await Note.findOneAndUpdate(
@@ -46,14 +52,14 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la note:", error);
     return NextResponse.json(
-      { error: "Erreur lors de la mise à jour de la note" },
+      { error: "Erreur lors de la mise à jour de la note", details: error instanceof Error ? error.message : 'Erreur inconnue' },
       { status: 500 }
     );
   }
 }
 
 // DELETE: Supprimer une note spécifique
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: { id: string } }): Promise<NextResponse> {
   await connectToDatabase();
 
   const authHeader = req.headers.get("Authorization");
@@ -66,7 +72,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
   const decoded = verifyToken(token);
 
   if (!decoded) {
-    return NextResponse.json({ error: "Token invalide" }, { status: 401 });
+    return NextResponse.json({ error: "Token invalide", details: "Le token JWT est invalide ou a expiré." }, { status: 401 });
   }
 
   try {
@@ -83,7 +89,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
   } catch (error) {
     console.error("Erreur lors de la suppression de la note:", error);
     return NextResponse.json(
-      { error: "Erreur lors de la suppression de la note" },
+      { error: "Erreur lors de la suppression de la note", details: error instanceof Error ? error.message : 'Erreur inconnue' },
       { status: 500 }
     );
   }

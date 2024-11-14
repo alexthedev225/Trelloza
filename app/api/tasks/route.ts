@@ -1,16 +1,21 @@
 import { NextResponse } from "next/server";
 import Task from "@/app/models/Task";
 import { connectToDatabase } from "@/app/utils/db";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 // Fonction pour vérifier et décoder le token JWT
-const verifyToken = (token: string) => {
+const verifyToken = (token: string): string | JwtPayload | null => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET!);
-  } catch (error) {
+  } catch {
     return null;
   }
 };
+
+// Type de garde pour vérifier que decoded est un JwtPayload
+function isJwtPayload(decoded: string | JwtPayload): decoded is JwtPayload {
+  return (decoded as JwtPayload).userId !== undefined;
+}
 
 // GET: Récupérer toutes les tâches de l'utilisateur connecté
 export async function GET(req: Request) {
@@ -26,7 +31,7 @@ export async function GET(req: Request) {
 
   const decoded = verifyToken(token);
 
-  if (!decoded) {
+  if (!decoded || !isJwtPayload(decoded)) {
     console.log("Token invalide");
     return NextResponse.json({ error: "Token invalide" }, { status: 401 });
   }
@@ -40,15 +45,24 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(tasks, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Erreur lors de la récupération des tâches:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération des tâches" },
-      { status: 500 }
-    );
+
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: "Erreur lors de la récupération des tâches", details: error.message },
+        { status: 500 }
+      );
+    } else {
+      return NextResponse.json(
+        { error: "Erreur inconnue lors de la récupération des tâches" },
+        { status: 500 }
+      );
+    }
   }
 }
 
+// POST: Créer une nouvelle tâche pour l'utilisateur connecté
 export async function POST(req: Request) {
   await connectToDatabase();
 
@@ -61,7 +75,7 @@ export async function POST(req: Request) {
 
   const decoded = verifyToken(token);
 
-  if (!decoded) {
+  if (!decoded || !isJwtPayload(decoded)) {
     return NextResponse.json({ error: "Token invalide" }, { status: 401 });
   }
 
@@ -78,10 +92,19 @@ export async function POST(req: Request) {
 
     await newTask.save();
     return NextResponse.json(newTask, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur lors de la création de la tâche" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    console.error("Erreur lors de la création de la tâche:", error);
+
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: "Erreur lors de la création de la tâche", details: error.message },
+        { status: 500 }
+      );
+    } else {
+      return NextResponse.json(
+        { error: "Erreur inconnue lors de la création de la tâche" },
+        { status: 500 }
+      );
+    }
   }
 }
