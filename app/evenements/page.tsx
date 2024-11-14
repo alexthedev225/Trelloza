@@ -9,9 +9,23 @@ import Instructions from "./EventTip";
 const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 const API_URL = "/api/events";
 
+// Définir l'interface pour les événements
+interface Event {
+  day: string;
+  title: string;
+  color: string;
+}
+
+// Définir l'état pour les événements
+interface EventsState {
+  [key: string]: { title: string; color: string }[];
+}
+
 const WeeklyEventPlanner: React.FC = () => {
-  const [events, setEvents] = useState<{ [key: string]: { title: string; color: string }[] }>({});
-  const [newEvent, setNewEvent] = useState<{ [key: string]: { title: string; color: string } }>({
+  const [events, setEvents] = useState<EventsState>({});
+  const [newEvent, setNewEvent] = useState<{
+    [key: string]: { title: string; color: string };
+  }>({
     Lundi: { title: "", color: "#000000" },
     Mardi: { title: "", color: "#000000" },
     Mercredi: { title: "", color: "#000000" },
@@ -33,14 +47,14 @@ const WeeklyEventPlanner: React.FC = () => {
         });
         if (!response.ok) throw new Error("Erreur lors de la récupération des événements");
 
-        const fetchedEvents = await response.json();
-        const organizedEvents = fetchedEvents.reduce((acc: any, event: any) => {
+        const fetchedEvents: Event[] = await response.json();
+        const organizedEvents = fetchedEvents.reduce((acc: EventsState, event: Event) => {
           acc[event.day] = acc[event.day] || [];
           acc[event.day].push({ title: event.title, color: event.color });
           return acc;
         }, {});
         setEvents(organizedEvents);
-      } catch (error) {
+      } catch {
         toast.error("Erreur lors de la récupération des événements");
       }
     };
@@ -65,7 +79,7 @@ const WeeklyEventPlanner: React.FC = () => {
       });
       if (!response.ok) throw new Error("Erreur lors de l'ajout de l'événement");
 
-      const addedEvent = await response.json();
+      const addedEvent: Event = await response.json();
       setEvents((prevEvents) => ({
         ...prevEvents,
         [day]: [...(prevEvents[day] || []), addedEvent],
@@ -75,7 +89,7 @@ const WeeklyEventPlanner: React.FC = () => {
         [day]: { title: "", color: "#000000" },
       }));
       toast.success("Événement ajouté avec succès !");
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de l'ajout de l'événement");
     }
   };
@@ -99,7 +113,7 @@ const WeeklyEventPlanner: React.FC = () => {
         return updatedEvents;
       });
       toast.warning(`Tous les événements du ${day} ont été supprimés !`);
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de la suppression des événements");
     }
   };
@@ -113,17 +127,17 @@ const WeeklyEventPlanner: React.FC = () => {
   };
 
   return (
-    <div className="p-10 min-h-screen ">
+    <div className="p-10 min-h-screen">
       <ToastContainer />
       <div className="flex flex-col justify-center items-center mb-12 w-full">
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white text-center playfair">
-        Planificateur d&apos;Événements Hebdomadaire
+          Planificateur d&apos;Événements Hebdomadaire
         </h1>
         <p className="mt-6 text-lg text-white text-center">
-        Utilisez le planificateur ci-dessous pour organiser vos événements de la semaine.
+          Utilisez le planificateur ci-dessous pour organiser vos événements de la semaine.
         </p>
       </div>
-     
+
       <Instructions />
       <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-4">
         {daysOfWeek.map((day) => (

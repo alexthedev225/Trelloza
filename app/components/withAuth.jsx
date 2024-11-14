@@ -30,7 +30,7 @@ const withAuth = (WrappedComponent) => {
         .catch(() => {
           router.push('/login');
         });
-    }, []);
+    }, [router]);
 
     if (!isAuthenticated) {
       return null; // Or a loading spinner

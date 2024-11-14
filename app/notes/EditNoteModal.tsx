@@ -1,13 +1,20 @@
 import React from "react";
 
+// Définir l'interface pour une note
+interface Note {
+  _id: string;
+  content: string;
+  category: string;
+}
+
 interface EditNoteModalProps {
-  noteToEdit: any;
+  noteToEdit: Note | null; // noteToEdit peut être null si aucune note n'est sélectionnée pour l'édition
   noteContent: string;
   setNoteContent: React.Dispatch<React.SetStateAction<string>>;
   category: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   handleEditNote: () => void;
-  setNoteToEdit: React.Dispatch<React.SetStateAction<any>>;
+  setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>; // setNoteToEdit gère un état de type Note ou null
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({

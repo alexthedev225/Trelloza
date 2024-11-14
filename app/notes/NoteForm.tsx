@@ -6,10 +6,6 @@ interface NoteFormProps {
   setNoteContent: React.Dispatch<React.SetStateAction<string>>;
   category: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
-  tags: string[];
-  setTags: React.Dispatch<React.SetStateAction<string[]>>;
-  newTag: string;
-  setNewTag: React.Dispatch<React.SetStateAction<string>>;
   handleAddNote: () => void;
 }
 

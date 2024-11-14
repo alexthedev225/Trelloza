@@ -1,11 +1,19 @@
 import React from "react";
 import { PencilIcon, TrashIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 
+// Définir l'interface pour la note
+interface Note {
+  _id: string;
+  content: string;
+  category: string;
+
+}
+
 interface NoteItemProps {
-  note: { _id: string; content: string; category: string; tags: string[] };
-  onEdit: (note: any) => void;
+  note: Note; // Utiliser le type Note pour la propriété 'note'
+  onEdit: (note: Note) => void; // Le type de 'onEdit' doit correspondre à Note
   onDelete: (_id: string) => void;
-  onExport: (note: any) => void;
+  onExport: (note: Note) => void; // Le type de 'onExport' doit aussi correspondre à Note
 }
 
 const NoteItem: React.FC<NoteItemProps> = ({ note, onEdit, onDelete, onExport }) => {
@@ -17,7 +25,7 @@ const NoteItem: React.FC<NoteItemProps> = ({ note, onEdit, onDelete, onExport })
       <div className="flex-1">
         <p className="text-lg font-normal text-gray-800">{note.content}</p>
         <p className="text-md font-medium text-gray-600 mt-1">Catégorie: <span className="font-semibold">{note.category || "Aucune"}</span></p>
-        <p className="text-sm text-gray-500 mt-1">Tags: <span className="font-semibold">{note.tags.join(", ") || "Aucun"}</span></p>
+        <p className="text-sm text-gray-500 mt-1">Tags:</p>
       </div>
       <div className="flex space-x-2 mt-4">
         <button

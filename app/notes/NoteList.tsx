@@ -5,7 +5,7 @@ interface Note {
   _id: string;
   content: string;
   category: string;
-  tags: string[];
+
 }
 
 interface NoteListProps {
@@ -33,16 +33,7 @@ const NoteList: React.FC<NoteListProps> = ({
           <div>
             <p className="text-gray-800 text-lg font-semibold">{note.content}</p>
             <p className="text-gray-600 text-sm mt-1">Catégorie: {note.category}</p>
-            <div className="flex space-x-2 mt-2">
-              {note.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-gray-300 text-gray-800 text-xs rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+           
           </div>
           <div className="flex justify-end space-x-4 mt-4">
             <button

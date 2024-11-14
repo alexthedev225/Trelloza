@@ -13,15 +13,12 @@ interface Note {
   _id: string;
   content: string;
   category: string;
-  tags: string[];
 }
 
 const NotesPage: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [noteContent, setNoteContent] = useState("");
   const [category, setCategory] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
@@ -69,7 +66,6 @@ const NotesPage: React.FC = () => {
     const newNote = {
       content: noteContent.trim(),
       category,
-      tags: [...tags],
     };
 
     const token = Cookies.get("token");
@@ -92,8 +88,6 @@ const NotesPage: React.FC = () => {
       setNotes([addedNote, ...notes]);
       setNoteContent("");
       setCategory("");
-      setTags([]);
-      setNewTag("");
 
       // Animation GSAP
       gsap.fromTo(
@@ -144,7 +138,6 @@ const NotesPage: React.FC = () => {
     setNoteToEdit(note);
     setNoteContent(note.content);
     setCategory(note.category);
-    setTags(note.tags);
   };
 
   // Modifier une note
@@ -162,7 +155,6 @@ const NotesPage: React.FC = () => {
           body: JSON.stringify({
             content: noteContent,
             category,
-            tags,
           }),
         });
 
@@ -182,7 +174,6 @@ const NotesPage: React.FC = () => {
         setNoteToEdit(null);
         setNoteContent("");
         setCategory("");
-        setTags([]);
       } catch (error) {
         console.error(error);
         alert("Une erreur s'est produite lors de la modification de la note");
@@ -213,10 +204,6 @@ const NotesPage: React.FC = () => {
         setNoteContent={setNoteContent}
         category={category}
         setCategory={setCategory}
-        tags={tags}
-        setTags={setTags}
-        newTag={newTag}
-        setNewTag={setNewTag}
         handleAddNote={handleAddNote}
       />
 
